@@ -52,7 +52,7 @@ Short Name: adManage
    function item_adManage_posted($catId= '', $itemId) {
       $conn = getConnection() ;
       $r_secret = '';
-      $r_secret = genRandomString();
+      $r_secret = adManageRandomString();
       $conn->osc_dbExec("REPLACE INTO %st_item_adManage_limit (fk_i_item_id, r_secret, r_times) VALUES (%d, '%s', %d)", DB_TABLE_PREFIX, $itemId, $r_secret, 0 );
    }
    
@@ -124,7 +124,7 @@ Short Name: adManage
    }
    
    // function to generate our random secret code for email
-   function genRandomString() {
+   function adManageRandomString() {
     $length = 6;
     $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
     $string = '';    

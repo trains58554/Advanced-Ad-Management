@@ -16,7 +16,7 @@
 					$date  = date('Y-m-d H:i:s');
 					$rTimes = $rSecretOk['r_times'] + 1;
 					$conn->osc_dbExec("UPDATE %st_item SET dt_pub_date = '%s' WHERE pk_i_id = '%d' ", DB_TABLE_PREFIX,$date,$id);
-					$conn->osc_dbExec("UPDATE %st_item_adManage_limit SET r_secret = '%s', r_times = '%d' WHERE fk_i_item_id = '%d' ", DB_TABLE_PREFIX,genRandomString(), $rTimes, $id);
+					$conn->osc_dbExec("UPDATE %st_item_adManage_limit SET r_secret = '%s', r_times = '%d' WHERE fk_i_item_id = '%d' ", DB_TABLE_PREFIX,adManageRandomString(), $rTimes, $id);
 					$rTimes = 0;
 
                          if((osc_adManage_payperpost() == 1) ){
