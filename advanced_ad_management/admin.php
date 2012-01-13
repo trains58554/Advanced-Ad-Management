@@ -4,7 +4,7 @@
     if(Params::getParam('addExistingAds') == 1){
     $conn = getConnection();
     $allItem = $conn->osc_dbFetchResults("SELECT DISTINCT * FROM %st_item_description", DB_TABLE_PREFIX);
-     $dao_preference = new Preference(); 
+    $dao_preference = new Preference(); 
     foreach($allItem as $itemB) {
         $r_secret = '';
         $r_secret = adManageRandomString();
@@ -14,6 +14,32 @@
     unset($dao_preference) ;
     echo '<script>location.href="' . osc_admin_base_url(true) . '?page=plugins&action=renderplugin&file=advanced_ad_management/admin.php"</script>';
     }// end of the addExistingAds section
+    
+    
+    //Master setting for expired days.
+    //Jesse's Ad Expiration plugin.
+     $days = '';
+    if(Params::getParam('days') != ''){
+	$days = Params::getParam('days');
+    }
+    else {
+    $conn = getConnection();
+    $data=$conn->osc_dbFetchResult("SELECT * FROM %st_category", DB_TABLE_PREFIX);
+    $days=$data['i_expiration_days'];
+    }
+
+    if( Params::getParam('option') == 'update' )
+    {
+	if($days>999)$days=999; // Set maximum days as per the sql structure of the field: i_expiration_days = int(3)
+
+	$conn = getConnection();
+	$conn->osc_dbExec("UPDATE %st_category SET i_expiration_days = '%s'", DB_TABLE_PREFIX, $days);
+
+	osc_add_flash_ok_message(__('Ad expiration successfully set for all categories'),'admin');
+
+	echo '<script>location.href="'.osc_admin_render_plugin_url('advanced_ad_management/admin.php?mUpdated=1').'"</script>';
+    }
+    //end Ad Expiration section
       
     $expire_days            = '';
     $dao_preference = new Preference();
@@ -58,11 +84,7 @@
 
 ?>
 
-<form action="<?php osc_admin_base_url(true); ?>" method="post">
-    <input type="hidden" name="page" value="plugins" />
-    <input type="hidden" name="action" value="renderplugin" />
-    <input type="hidden" name="file" value="advanced_ad_management/admin.php" />
-    <input type="hidden" name="option" value="stepone" />
+
     <fieldset>
     <h2><?php _e('Advanced Ad Management Configuration', 'adManage'); ?></h2> 
         <fieldset>
@@ -83,7 +105,28 @@
                <a href="<?php echo osc_admin_base_url(true) . '?page=plugins&action=configure&plugin=advanced_ad_management/index.php'; ?>" ><?php _e('Manage which categories you want your users to be able to adManage their ads in.','adManage'); ?></a> <br /><?php echo $catSet . ' ' . __('categoreies allow users to adManage ads','adManage');?>
               <?php } ?>
         </fieldset>
+    <?php $mUdated = Params::getParam('mUpdated'); ?>
+   <form name="adexpiration" action="<?php echo osc_admin_base_url(true); ?>" method="POST" enctype="multipart/form-data" >
+	<input type="hidden" name="page" value="plugins" />
+	<input type="hidden" name="action" value="renderplugin" />
+	<input type="hidden" name="file" value="advanced_ad_management/admin.php" />
+	<input type="hidden" name="option" value="update" />
+        <fieldset>
+        <legend><?php _e('Master Expire Settings','adManage'); ?></legend>
+        <?php echo __('This powerful feature will change the ad expiration settings for','adManage') . ' <b>' . __('ALL','adManage') . '</b> ' . __('categories and subcategories.','adManage'); ?> <br /><br />
+        <label for="days" style="font-weight: bold;"><?php _e('Enter ad expiration in days (0 = no expiration, max = 999 days)', 'adManage'); ?></label>:<br />
+        <input type="text" name="days" id="days" value="<?php echo $days; ?>" /><?php echo __('(currently set at ','adManage') . $days . __(' days)','adManage');?><?php if($mUpdated == 1) {echo ' <b>' . __('Updated', 'adManage') . '</b>' ;} ?>
+        <br />
+        <br />
+        <input type="submit" value="<?php _e('Save', 'adManage'); ?>" onclick="javascript:return confirm('<?php _e('This action can not be undone. Are you sure you want to continue?', 'adManage'); ?>')" /> 
+        </fieldset>
+    </form>
         
+    <form action="<?php osc_admin_base_url(true); ?>" method="post">
+    <input type="hidden" name="page" value="plugins" />
+    <input type="hidden" name="action" value="renderplugin" />
+    <input type="hidden" name="file" value="advanced_ad_management/admin.php" />
+    <input type="hidden" name="option" value="stepone" />
         <fieldset>
         <legend><?php echo _e('Item Republish Settings','adManage'); ?></legend>
         <?php if(osc_item_adManage_installed() ==1 && $catSet > 1) { ?>
