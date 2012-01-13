@@ -105,7 +105,7 @@
                <a href="<?php echo osc_admin_base_url(true) . '?page=plugins&action=configure&plugin=advanced_ad_management/index.php'; ?>" ><?php _e('Manage which categories you want your users to be able to adManage their ads in.','adManage'); ?></a> <br /><?php echo $catSet . ' ' . __('categoreies allow users to adManage ads','adManage');?>
               <?php } ?>
         </fieldset>
-    <?php $mUdated = Params::getParam('mUpdated'); ?>
+    <?php $mUpdated = ''; $mUdated = Params::getParam('mUpdated'); ?>
    <form name="adexpiration" action="<?php echo osc_admin_base_url(true); ?>" method="POST" enctype="multipart/form-data" >
 	<input type="hidden" name="page" value="plugins" />
 	<input type="hidden" name="action" value="renderplugin" />
