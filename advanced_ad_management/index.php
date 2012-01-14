@@ -36,6 +36,7 @@ Short Name: adManage
       $conn = getConnection() ;
       // Remove the table we added for our plugin
       $conn->osc_dbExec('DROP TABLE %st_item_adManage_limit', DB_TABLE_PREFIX) ;
+      $conn->osc_dbExec('DROP TABLE %st_item_adManage_log', DB_TABLE_PREFIX) ;
       // Delete preference rows we added
       osc_delete_preference('adManageed_expire', 'plugin-item_adManage');
       osc_delete_preference('adManageed_payperpost', 'plugin-item_adManage');
@@ -151,12 +152,12 @@ Short Name: adManage
      * 
      * @return boolean  
      */
-    function item_is_expired($itemId) {
+    function item_is_expired($itemId,$delExpire=0) {
         if( $itemId['b_premium'] ) {
             return false;
         } else {
             $category = Category::newInstance()->findByPrimaryKey( $itemId['fk_i_category_id'] ) ;
-            $expiration = $category['i_expiration_days'];
+            $expiration = $category['i_expiration_days'] + $delExpire;
 
             if($expiration == 0){ return false; }
             else{
@@ -190,6 +191,23 @@ Short Name: adManage
                }// end check of expired email has been sent.
             }// end of is item expired check.
          }// end of if expired email enabled
+         if(osc_item_adManage_deleteDays() != 0){
+           if($pCatCount != 0){
+            if(item_is_expired($itemA, osc_item_adManage_deleteDays())){
+               $itemM = new Item();
+               $item   = $itemM->itemManager->listWhere("i.pk_i_id = '%s' AND ((i.s_secret = '%s') OR (i.fk_i_user_id = '%d'))", $itemA['pk_i_id'], $itemA['s_secret'], $itemA['fk_i_user_id']);
+               if (count($item) == 1) {
+                  $mItems = new ItemActions(false);
+                  $success = $mItems->delete($item[0]['s_secret'], $item[0]['pk_i_id']);
+                  if($success) {
+                     $conn->osc_dbExec("INSERT INTO %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item deleted successful');
+                  } else {
+                     $conn->osc_dbExec("INSERT INTO %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted');
+                  } // end success 
+               }// end count of items that need to be deleted.
+            }// end of if item is expired past set expired date
+           }// end check if item is in pCatCount
+         }// end check if deleteDays is not equal to zero.
       }//end of foreach
       
    }

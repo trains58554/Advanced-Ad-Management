@@ -100,6 +100,7 @@
 
 ?>
 
+
     <fieldset>
     <h2><?php _e('Advanced Ad Management Configuration', 'adManage'); ?></h2> 
         <fieldset>
@@ -195,3 +196,5 @@
         <?php echo __('Authors','adManage') . ' ' . '<a target="_blank" href="' . $adManage_plugin_data['plugin_uri'] . '">' . $adManage_plugin_data['author'] . '</a>'; ?>
     </fieldset> 
 </form>
+
+  
