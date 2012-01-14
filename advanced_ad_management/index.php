@@ -339,6 +339,7 @@ Short Name: adManage
     // This is a hack to show a Uninstall link at plugins table (you could also use some other hook to show a custom option panel)
     osc_add_hook(osc_plugin_path(__FILE__) . '_uninstall', 'adManage_uninstall') ;
 
+
     // Add the help to the menu
     osc_add_hook('admin_menu', 'item_adManage_admin_menu');
     // Add cron

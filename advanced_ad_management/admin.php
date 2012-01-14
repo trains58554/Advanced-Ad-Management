@@ -100,7 +100,6 @@
 
 ?>
 
-
     <fieldset>
     <h2><?php _e('Advanced Ad Management Configuration', 'adManage'); ?></h2> 
         <fieldset>
