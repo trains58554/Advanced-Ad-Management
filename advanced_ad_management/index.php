@@ -184,7 +184,7 @@ Short Name: adManage
          
          if(osc_item_adManage_adEmailEx() == 1) {
             if(item_is_expired($itemA)) {
-               $exEmailed = $conn->osc_dbFetchResults("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id= '%d'", DB_TABLE_PREFIX, $itemA['pk_i_id']);
+               $exEmailed = $conn->osc_dbFetchResult("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id= '%d'", DB_TABLE_PREFIX, $itemA['pk_i_id']);
                if($exEmailed['ex_email'] != 1) {
                   item_expired_email($itemA['pk_i_id'], $repub['r_secret'], osc_item_adManage_deleteDays() );
                   $conn->osc_dbExec("UPDATE %st_item_adManage_limit SET ex_email = '%d'", DB_TABLE_PREFIX, 1);
@@ -194,8 +194,8 @@ Short Name: adManage
          if(osc_item_adManage_deleteDays() != 0){
            if($pCatCount != 0){
             if(item_is_expired($itemA, osc_item_adManage_deleteDays())){
-               $itemM = new Item();
-               $item   = $itemM->itemManager->listWhere("i.pk_i_id = '%s' AND ((i.s_secret = '%s') OR (i.fk_i_user_id = '%d'))", $itemA['pk_i_id'], $itemA['s_secret'], $itemA['fk_i_user_id']);
+              
+               $item   = Item::newInstance()->listWhere("i.pk_i_id = '%s' AND ((i.s_secret = '%s') OR (i.fk_i_user_id = '%d'))", $itemA['pk_i_id'], $itemA['s_secret'], $itemA['fk_i_user_id']);
                if (count($item) == 1) {
                   $mItems = new ItemActions(false);
                   $success = $mItems->delete($item[0]['s_secret'], $item[0]['pk_i_id']);
@@ -205,6 +205,7 @@ Short Name: adManage
                      $conn->osc_dbExec("INSERT INTO %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted');
                   } // end success 
                }// end count of items that need to be deleted.
+               else { $conn->osc_dbExec("INSERT INTO %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted item not found'); }
             }// end of if item is expired past set expired date
            }// end check if item is in pCatCount
          }// end check if deleteDays is not equal to zero.
@@ -302,7 +303,7 @@ Short Name: adManage
 
         $words   = array();
         $words[] = array('{CONTACT_NAME}', '{ITEM_TITLE}', '{WEB_TITLE}', '{REPUBLISH_URL}', '{PERM_DELETED}');
-        $words[] = array($item['s_contact_name'], $item['s_title'], osc_page_title(), $republish_url, $expire_days) ;
+        $words[] = array($item['s_contact_name'], $item['s_title'], osc_page_title(), $republish_url, $permDeleted) ;
 
         $title = osc_mailBeauty($content['s_title'], $words) ;
         $body  = osc_mailBeauty($content['s_text'], $words) ;
