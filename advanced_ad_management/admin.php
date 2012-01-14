@@ -73,6 +73,22 @@
         $freeTimes  = (osc_item_adManage_freeRepubs() != '') ? osc_item_adManage_freeRepubs() : '' ;
     }
     
+    $adEmailEx            = '';
+    $dao_preference = new Preference();
+    if(Params::getParam('adEmailEx') != '') {
+        $adEmailEx  = Params::getParam('adEmailEx');
+    } else {
+        $adEmailEx  = (osc_item_adManage_adEmailEx() != '') ? osc_item_adManage_adEmailEx() : '' ;
+    }
+    
+    $deleteDays            = '';
+    $dao_preference = new Preference();
+    if(Params::getParam('deleteDays') != '') {
+        $deleteDays  = Params::getParam('deleteDays');
+    } else {
+        $deleteDays  = (osc_item_adManage_deleteDays() != '') ? osc_item_adManage_deleteDays() : '' ;
+    }
+    
     if( Params::getParam('option') == 'stepone' ) {
         $dao_preference->update(array("s_value" => $expire_days), array("s_section" => "plugin-item_adManage", "s_name" => "adManageed_expire")) ;
         $dao_preference->update(array("s_value" => $payPost), array("s_section" => "plugin-item_adManage", "s_name" => "adManageed_payperpost")) ;
@@ -100,9 +116,10 @@
         $pCats = $conn->osc_dbFetchResults("SELECT * FROM %st_plugin_category WHERE s_plugin_name = '%s'", DB_TABLE_PREFIX, 'adManage');
         $catSet = count($pCats);
         if (($catSet < 1) && (osc_item_adManage_installed() ==1) ) {?> 
-               <a href="<?php echo osc_admin_base_url(true) . '?page=plugins&action=configure&plugin=advanced_ad_management/index.php'; ?>" ><?php _e('Configure which categories you want your users to be able to adManage their ads in.','adManage'); ?></a>
+               <a href="<?php echo osc_admin_base_url(true) . '?page=plugins&action=configure&plugin=advanced_ad_management/index.php'; ?>" ><?php _e('Configure which categories you want your users to be able to republish their ads in.','adManage'); ?></a>
         <?php } else { ?>
-               <a href="<?php echo osc_admin_base_url(true) . '?page=plugins&action=configure&plugin=advanced_ad_management/index.php'; ?>" ><?php _e('Manage which categories you want your users to be able to adManage their ads in.','adManage'); ?></a> <br /><?php echo $catSet . ' ' . __('categoreies allow users to adManage ads','adManage');?>
+               <a href="<?php echo osc_admin_base_url(true) . '?page=plugins&action=configure&plugin=advanced_ad_management/index.php'; ?>" ><?php _e('Manage which categories you want your users to be able to republish their ads in.','adManage'); ?></a> <br />
+               <?php echo $catSet . ' ' . __('categoreies allow users to republish ads','adManage');?>
               <?php } ?>
         </fieldset>
     <?php $mUpdated = ''; $mUdated = Params::getParam('mUpdated'); ?>
@@ -154,9 +171,28 @@
         <input type="text" name="freeTimes" id="freeTimes" value="<?php echo $freeTimes; ?>" /><?php _e('(0 = no free republishes)','adManage');?>
         <?php } else{ _e('Enable Paypal Pay Per Post option to see these settings','adManage');} ?>
         </fieldset>
+        <?php } ?> 
+        </fieldset>
+        
+        <fieldset>
+        <legend><?php _e('Ad Expiration Settings','adManage'); ?></legend>
+        <label for="adEmailEx" style="font-weight: bold;"><?php _e('Send an email once the ad has expired?', 'adManage'); ?></label>:<br />
+        <select name="adEmailEx" id="adEmailEx"> 
+        	<option <?php if($adEmailEx == 1){echo 'selected="selected"';}?>value='1'>Yes</option>
+        	<option <?php if($adEmailEx == 0){echo 'selected="selected"';}?>value='0'>No</option>
+        </select>
+        <br />
+        <br />
+        <label for="deleteDays" style="font-weight: bold;"><?php _e('Number of days until expired ads are deleted permanently?', 'adManage'); ?></label>:<br />
+        <span style="font-size:small;color:gray;"><?php _e('Note: If you have the number of days set ot zero you should edit the <br />email template "email_ad_expired" accordingly', 'adManage'); ?>.</span><br />
+        <input type="text" name="deleteDays" id="deleteDays" value="<?php echo $deleteDays; ?>" /><?php _e('(0 = never deleted)','adManage');?>
+        <br />
+        <br />
+        </fieldset>
+        <?php if(osc_item_adManage_installed() ==1 && $catSet > 1) { ?>
         <input type="submit" value="<?php _e('Save', 'adManage'); ?>" /> 
         <?php } ?>    
-        </fieldset>
+        <br />
         <?php echo __('Authors','adManage') . ' ' . '<a target="_blank" href="' . $adManage_plugin_data['plugin_uri'] . '">' . $adManage_plugin_data['author'] . '</a>'; ?>
     </fieldset> 
 </form>

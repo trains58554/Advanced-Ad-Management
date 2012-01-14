@@ -22,6 +22,8 @@ Short Name: adManage
       osc_set_preference('adManageed_repubTimes', '5', 'plugin-item_adManage', 'INTEGER');
       osc_set_preference('adManageed_installed', '0', 'plugin-item_adManage', 'INTEGER');
       osc_set_preference('adManageed_freeRepubs', '0', 'plugin-item_adManage', 'INTEGER');
+      osc_set_preference('adManageed_expireEmail', '1', 'plugin-item_adManage', 'INTEGER');
+      osc_set_preference('adManageed_deleteDays', '30', 'plugin-item_adManage', 'INTEGER');
       //used for email template
       $conn->osc_dbExec("INSERT INTO %st_pages (s_internal_name, b_indelible, dt_pub_date) VALUES ('email_ad_expire', 1, NOW() )", DB_TABLE_PREFIX);
       $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} is about to expire.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad is about to expire, click on the link if you would like to extend your ad {REPUBLISH_URL}</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language());
@@ -40,6 +42,8 @@ Short Name: adManage
       osc_delete_preference('adManageed_repubTimes', 'plugin-item_adManage');
       osc_delete_preference('adManageed_istalled', 'plugin-item_adManage');
       osc_delete_preference('adManageed_freeRepubs', 'plugin-item_adManage');
+      osc_delete_preference('adManageed_expireEmail', 'plugin-item_adManage');
+      osc_delete_preference('adManageed_deleteDays', 'plugin-item_adManage');
       //remove email template
       $page_id = $conn->osc_dbFetchResult("SELECT * FROM %st_pages WHERE s_internal_name = 'email_ad_expire'", DB_TABLE_PREFIX);
       $conn->osc_dbExec("DELETE FROM %st_pages_description WHERE fk_i_pages_id = %d", DB_TABLE_PREFIX, $page_id['pk_i_id']);
@@ -75,6 +79,12 @@ Short Name: adManage
     }
     function osc_item_adManage_freeRepubs() {
         return(osc_get_preference('adManageed_freeRepubs', 'plugin-item_adManage')) ;
+    }
+    function osc_item_adManage_adEmailEx() {
+        return(osc_get_preference('adManageed_expireEmail', 'plugin-item_adManage')) ;
+    }
+    function osc_item_adManage_deleteDays() {
+        return(osc_get_preference('adManageed_deleteDays', 'plugin-item_adManage')) ;
     }
     
    // function for displaying the link in the users area 
@@ -134,6 +144,31 @@ Short Name: adManage
 
     return $string;
    } 
+   
+   /** This function is modelled after the one found in hItems.php
+     *
+     * Return true if item is expired, else return false
+     * 
+     * @return boolean  
+     */
+    function item_is_expired($itemId) {
+        if( $itemId['b_premium'] ) {
+            return false;
+        } else {
+            $category = Category::newInstance()->findByPrimaryKey( $itemId['fk_i_category_id'] ) ;
+            $expiration = $category['i_expiration_days'];
+
+            if($expiration == 0){ return false; }
+            else{
+                $date_expiration = strtotime(date("Y-m-d H:i:s", strtotime( $itemId['dt_pub_date'] )) . " +$expiration day");
+                $now             = strtotime(date('Y-m-d H:i:s'));
+
+                if( $date_expiration < $now ) { return true; }
+                else { return false; }
+            }
+        }
+    }
+   
    function item_adManage_cron() {
       $conn = getConnection() ;
       $allItems = $conn->osc_dbFetchResults("SELECT * FROM %st_item", DB_TABLE_PREFIX);
@@ -145,8 +180,18 @@ Short Name: adManage
             $repub = $conn->osc_dbFetchResult("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id = %d", DB_TABLE_PREFIX, $itemA['pk_i_id']);
             item_expire_email($itemA['pk_i_id'], $repub['r_secret'], osc_adManage_expire() );
          }
-      }
-      //return $test;
+         
+         if(osc_item_adManage_adEmailEx() == 1) {
+            if(item_is_expired($itemA)) {
+               $exEmailed = $conn->osc_dbFetchResults("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id= '%d'", DB_TABLE_PREFIX, $itemA['pk_i_id']);
+               if($exEmailed['ex_email'] != 1) {
+                  item_expired_email($itemA['pk_i_id'], $repub['r_secret'], osc_item_adManage_deleteDays() );
+                  $conn->osc_dbExec("UPDATE %st_item_adManage_limit SET ex_email = '%d'", DB_TABLE_PREFIX, 1);
+               }// end check of expired email has been sent.
+            }// end of is item expired check.
+         }// end of if expired email enabled
+      }//end of foreach
+      
    }
    
    /**
