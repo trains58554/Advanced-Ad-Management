@@ -94,6 +94,8 @@
         $dao_preference->update(array("s_value" => $payPost), array("s_section" => "plugin-item_adManage", "s_name" => "adManageed_payperpost")) ;
         $dao_preference->update(array("s_value" => $rTimes), array("s_section" => "plugin-item_adManage", "s_name" => "adManageed_repubTimes")) ;
         $dao_preference->update(array("s_value" => $freeTimes), array("s_section" => "plugin-item_adManage", "s_name" => "adManageed_freeRepubs")) ;
+        $dao_preference->update(array("s_value" => $adEmailEx), array("s_section" => "plugin-item_adManage", "s_name" => "adManageed_expireEmail")) ;
+        $dao_preference->update(array("s_value" => $deleteDays), array("s_section" => "plugin-item_adManage", "s_name" => "adManageed_deleteDays")) ;
         echo '<div style="text-align:center; font-size:22px; background-color:#00bb00;"><p>' . __('Settings Saved', 'adManage') . '.</p></div>';
     }
     unset($dao_preference) ;
