@@ -30,7 +30,7 @@
 			                }
 
 
-                                        osc_add_flash_error_message( __('Item has been republished','adManage') ) ;
+                                        osc_add_flash_ok_message( __('Item has been republished','adManage') ) ;
                                                                           
                                         header("Location: " . osc_base_url(true) . '?page=item&id=' . $id);
                                         exit;
@@ -38,7 +38,7 @@
                                     //else statement if the number of republish times has been reached
                                     } else{
                                        // add a flash message [ITEM NO EXISTE]
-                                        osc_add_flash_message( __('Sorry, this ad has reached the max number of republishes.','adManage')) ;
+                                        osc_add_flash_error_message( __('Sorry, this ad has reached the max number of republishes.','adManage')) ;
                                         if(osc_is_web_user_logged_in()) {
                                            // REDIRECT
                                            header("Location: " . osc_user_list_items_url());
@@ -50,7 +50,7 @@
                                     }
                                     } else {
                                         // add a flash message [ITEM NO EXISTE]
-                                        osc_add_flash_message( __('Sorry, we don\'t have any items with that ID or the secret key is incorrect.','adManage')) ;
+                                        osc_add_flash_error_message( __('Sorry, we don\'t have any items with that ID or the secret key is incorrect.','adManage')) ;
                                         if(osc_is_web_user_logged_in()) {
                                            // REDIRECT
                                            header("Location: " . osc_user_list_items_url());    	                                  

@@ -250,8 +250,8 @@ surely as haste leads to poverty. Proverbs 21:5
         if(@$item[fk_i_user_id] == NULL) {
            $secret = '&secret=' . $item['s_secret'];
         }      
-        
-        $republish_url    = osc_base_url(true) . '?page=custom&file=advanced_ad_republish/item_republish.php?id=' . $item['pk_i_id'] . '&action=item_republish&rSecret=' . $r_secret . $secret ;
+    
+        $republish_url    = osc_base_url() . 'oc-content/plugins/advanced_ad_republish/item_republish.php?id=' . $item['pk_i_id'] . '&repub=republish&rSecret=' . $r_secret . $secret ;
         $republish_url    = '<a href="' . $republish_url . '" >' . $republish_url . '</a>';
 
         $words   = array();
@@ -302,7 +302,7 @@ surely as haste leads to poverty. Proverbs 21:5
            $secret = '&secret=' . $item['s_secret'];
         }      
         
-        $republish_url    = osc_base_url(true) . '?page=custom&file=advanced_ad_republish/item_republish.php?id=' . $item['pk_i_id'] . '&action=item_republish&rSecret=' . $r_secret . $secret ;
+        $republish_url    = osc_base_url() . 'oc-content/plugins/advanced_ad_republish/item_republish.php?id=' . $item['pk_i_id'] . '&repub=republish&rSecret=' . $r_secret . $secret ;
         $republish_url    = '<a href="' . $republish_url . '" >' . $republish_url . '</a>';
 
         $words   = array();
