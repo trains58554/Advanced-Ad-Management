@@ -10,9 +10,10 @@ CREATE TABLE /*TABLE_PREFIX*/t_item_adManage_limit(
 ) ENGINE=InnoDB DEFAULT CHARACTER SET 'UTF8' COLLATE 'UTF8_GENERAL_CI';
 
 CREATE TABLE /*TABLE_PREFIX*/t_item_adManage_log(
-    fk_i_item_id int(10) unsigned NOT NULL,
+    id int(10) unsigned NOT NULL AUTO_INCREMENT,    
+    fk_i_item_id int(10),
     error_action VARCHAR(25),
     
 	 
-        PRIMARY KEY (fk_i_item_id)
+        PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET 'UTF8' COLLATE 'UTF8_GENERAL_CI';

@@ -34,22 +34,37 @@
                     <?php _e('The Advanced Ad Management Plugin gives the user the option to republish there ad after it expires. More info coming soon.', 'adManage'); ?>
                 </p>
                 <h2>
-                    <?php _e('How do I install the Advanced Ad Management plugin?', 'adManage'); ?>
+                    <?php _e('Do I need to edit any files for Advanced Ad Management plugin to work?', 'adManage'); ?>
                 </h2>
                 <p>
-                    <?php _e('More info coming soon.', 'adManage'); ?>
+                    <?php _e('Yes, You need to edit the user-items.php file and add the following line.', 'adManage'); ?>
                 </p>
+                <pre>
+                    &lt;?php if (function_exists('republish_url')) {republish_url();} ?&gt;
+                </pre>
+                <p>
+                    <?php _e('Find the following code and add the above code between the tags but before the &lt;/p&gt; tag.','adManage'); ?>
+                </p>
+                <pre>
+                    &lt;p class="options"&gt;
+                </pre>
                 <h2>
-                    <?php _e('How do I edit the email template?', 'adManage'); ?>
+                    <?php _e('How do I edit the email templates?', 'adManage'); ?>
                 </h2>
                 <p>
-                    <?php _e('To edit the email template you have to go under the Email & Alerts menu. Then you will see towards the end of the list email template.', 'adManage'); ?>
+                    <?php _e('To edit the email templates you have to go under the Email & Alerts menu. Then you will see towards the end of the list email_ad_expire and email_ad_expired.', 'adManage'); ?>
                 </p>
                 <h2>
                     <?php _e('What are the dynamic tags that can be used in the "email_ad_expire" template?', 'adManage'); ?>
                 </h2>
                 <p>
-                    <?php _e('{CONTACT_NAME}, {ITEM_TITLE}, {WEB_TITLE}, {REPUBLISH_URL}, {EXPIRE_DAYS}.', 'adManage'); ?>
+                    <?php echo'{CONTACT_NAME}, {ITEM_TITLE}, {WEB_TITLE}, {REPUBLISH_URL}, {EXPIRE_DAYS}'; ?>
+                </p>
+                <h2>
+                    <?php _e('What are the dynamic tags that can be used in the "email_ad_expired" template?', 'adManage'); ?>
+                </h2>
+                <p>
+                    <?php echo '{CONTACT_NAME}, {ITEM_TITLE}, {WEB_TITLE}, {REPUBLISH_URL}, {PERM_DELETED}.'; ?>
                 </p>
             </fieldset>
         </div>

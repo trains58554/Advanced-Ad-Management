@@ -195,7 +195,7 @@
         <input type="submit" value="<?php _e('Save', 'adManage'); ?>" /> 
         <?php } ?>    
         <br />
-        <?php echo __('Authors','adManage') . ' ' . '<a target="_blank" href="' . $adManage_plugin_data['plugin_uri'] . '">' . $adManage_plugin_data['author'] . '</a>'; ?>
+        <?php echo __('Authors','adManage') . ' ' . '<!-- <a target="_blank" href="' . $adManage_plugin_data['plugin_uri'] . '<!-- "> -->' . $adManage_plugin_data['author'] . '<!-- </a> -->'; ?>
     </fieldset> 
 </form>
 
