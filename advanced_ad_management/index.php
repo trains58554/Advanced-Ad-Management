@@ -31,8 +31,7 @@ surely as haste leads to poverty. Proverbs 21:5
       $conn->osc_dbExec("INSERT INTO %st_pages (s_internal_name, b_indelible, dt_pub_date) VALUES ('email_ad_expire', 1, NOW() )", DB_TABLE_PREFIX);
       $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} is about to expire.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad is about to expire, click on the link if you would like to extend your ad {REPUBLISH_URL}</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language());
       $conn->osc_dbExec("INSERT INTO %st_pages (s_internal_name, b_indelible, dt_pub_date) VALUES ('email_ad_expired', 1, NOW() )", DB_TABLE_PREFIX);
-      $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} has expired.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad has expired. You may renew your ad by clicking on the link {REPUBLISH_URL}. Otherwise your ad will be permanently deleted in {PERM_DELETED} days</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language());
-      
+      $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} has expired.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad has expired. You may renew your ad by clicking on the link {REPUBLISH_URL}. Otherwise your ad will be permanently deleted in {PERM_DELETED} days</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language()); 
    }
    
    function adManage_uninstall () {
@@ -215,6 +214,7 @@ surely as haste leads to poverty. Proverbs 21:5
             }// end of if item is expired past set expired date
            }// end check if item is in pCatCount
          }// end check if deleteDays is not equal to zero.
+         
       }//end of foreach
       
    }
@@ -233,7 +233,6 @@ surely as haste leads to poverty. Proverbs 21:5
      */
      
     function item_expire_email($itemId, $r_secret, $expire_days = '') {
-       
         $mPages = new Page() ;
         $aPage = $mPages->findByInternalName('email_ad_expire') ;
         $locale = osc_current_user_locale() ;
@@ -285,7 +284,6 @@ surely as haste leads to poverty. Proverbs 21:5
      */
      
     function item_expired_email($itemId, $r_secret, $permDeleted) {
-       
         $mPages = new Page() ;
         $aPage = $mPages->findByInternalName('email_ad_expired') ;
         $locale = osc_current_user_locale() ;
@@ -363,7 +361,6 @@ surely as haste leads to poverty. Proverbs 21:5
     osc_add_hook(__FILE__ . "_configure", 'adManage_config');
     // This is a hack to show a Uninstall link at plugins table (you could also use some other hook to show a custom option panel)
     osc_add_hook(osc_plugin_path(__FILE__) . '_uninstall', 'adManage_uninstall') ;
-
 
     // Add the help to the menu
     osc_add_hook('admin_menu', 'item_adManage_admin_menu');
