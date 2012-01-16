@@ -7,6 +7,9 @@ Version: 1.0
 Author: Jesse & JChapman
 Author URI: http://www.osclass.org/
 Short Name: adManage
+
+The plans of the diligent lead to profit as 
+surely as haste leads to poverty. Proverbs 21:5
 */
 
 
@@ -28,7 +31,7 @@ Short Name: adManage
       $conn->osc_dbExec("INSERT INTO %st_pages (s_internal_name, b_indelible, dt_pub_date) VALUES ('email_ad_expire', 1, NOW() )", DB_TABLE_PREFIX);
       $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} is about to expire.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad is about to expire, click on the link if you would like to extend your ad {REPUBLISH_URL}</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language());
       $conn->osc_dbExec("INSERT INTO %st_pages (s_internal_name, b_indelible, dt_pub_date) VALUES ('email_ad_expired', 1, NOW() )", DB_TABLE_PREFIX);
-      $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} has expired.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad has expired. You may renew your ad by click on the link {REPUBLISH_URL}. Otherwise your ad will be permanently deleted in {PERM_DELETED} days</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language());
+      $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} has expired.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad has expired. You may renew your ad by clicking on the link {REPUBLISH_URL}. Otherwise your ad will be permanently deleted in {PERM_DELETED} days</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language());
       
    }
    
@@ -177,9 +180,10 @@ Short Name: adManage
       foreach($allItems as $itemA) {
          $pCats = $conn->osc_dbFetchResult("SELECT * FROM %st_plugin_category WHERE s_plugin_name = '%s' AND fk_i_category_id = '%d'", DB_TABLE_PREFIX, 'adManage', $itemA['fk_i_category_id']);
          $pCatCount = count($pCats);
-         if(osc_expire_date($itemA['pk_i_id']) == TRUE && $pCatCount != 0 ) {
-            $repub = $conn->osc_dbFetchResult("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id = %d", DB_TABLE_PREFIX, $itemA['pk_i_id']);
+         $repub = $conn->osc_dbFetchResult("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id = %d", DB_TABLE_PREFIX, $itemA['pk_i_id']);
+         if(osc_expire_date($itemA['pk_i_id']) == TRUE && $pCatCount != 0 ) {            
             item_expire_email($itemA['pk_i_id'], $repub['r_secret'], osc_adManage_expire() );
+            $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Ad about to expire warning email sent. Successful');
          }
          
          if(osc_item_adManage_adEmailEx() == 1) {
@@ -187,10 +191,12 @@ Short Name: adManage
                $exEmailed = $conn->osc_dbFetchResult("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id= '%d'", DB_TABLE_PREFIX, $itemA['pk_i_id']);
                if($exEmailed['ex_email'] != 1) {
                   item_expired_email($itemA['pk_i_id'], $repub['r_secret'], osc_item_adManage_deleteDays() );
-                  $conn->osc_dbExec("UPDATE %st_item_adManage_limit SET ex_email = '%d'", DB_TABLE_PREFIX, 1);
+                  $conn->osc_dbExec("UPDATE %st_item_adManage_limit SET ex_email = '%d' WHERE fk_i_item_id = '%d'", DB_TABLE_PREFIX, 1, $itemA['pk_i_id']);
+                  $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Expired email sent. Successful');
                }// end check of expired email has been sent.
             }// end of is item expired check.
          }// end of if expired email enabled
+         
          if(osc_item_adManage_deleteDays() != 0){
            if($pCatCount != 0){
             if(item_is_expired($itemA, osc_item_adManage_deleteDays())){
@@ -200,12 +206,12 @@ Short Name: adManage
                   $mItems = new ItemActions(false);
                   $success = $mItems->delete($item[0]['s_secret'], $item[0]['pk_i_id']);
                   if($success) {
-                     $conn->osc_dbExec("INSERT INTO %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item deleted successful');
+                     $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item deleted. Successful.');
                   } else {
-                     $conn->osc_dbExec("INSERT INTO %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted');
+                     $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted.');
                   } // end success 
                }// end count of items that need to be deleted.
-               else { $conn->osc_dbExec("INSERT INTO %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted item not found'); }
+               else { $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted item not found.'); }
             }// end of if item is expired past set expired date
            }// end check if item is in pCatCount
          }// end check if deleteDays is not equal to zero.
