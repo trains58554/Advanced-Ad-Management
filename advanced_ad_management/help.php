@@ -40,7 +40,7 @@
                     <?php _e('Yes, You need to edit the user-items.php file and add the following line.', 'adManage'); ?>
                 </p>
                 <pre>
-                    &lt;?php if (function_exists('republish_url')) {republish_url();} ?&gt;
+                    &lt;?php if (function_exists('republish_url')) {echo republish_url();} ?&gt;
                 </pre>
                 <p>
                     <?php _e('Find the following code and add the above code between the tags but before the &lt;/p&gt; tag.','adManage'); ?>

@@ -29,9 +29,9 @@
 			                  }
 			                }
 
-
+                                        $conn->osc_dbExec("UPDATE %st_item_adManage_limit SET ex_email = '%d' WHERE fk_i_item_id = '%d'", DB_TABLE_PREFIX, 0, $id);
                                         osc_add_flash_ok_message( __('Item has been republished','adManage') ) ;
-                                                                          
+                                        $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $id, date('Y-m-d H:i:s'), 'Item Republished. ' . date('Y-m-d H:i:s'));                                  
                                         header("Location: " . osc_base_url(true) . '?page=item&id=' . $id);
                                         exit;
     	                                    
@@ -39,6 +39,7 @@
                                     } else{
                                        // add a flash message [ITEM NO EXISTE]
                                         osc_add_flash_error_message( __('Sorry, this ad has reached the max number of republishes.','adManage')) ;
+                                        $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $id, date('Y-m-d H:i:s'), 'Item reached max num of republishes. ' . date('Y-m-d H:i:s'));
                                         if(osc_is_web_user_logged_in()) {
                                            // REDIRECT
                                            header("Location: " . osc_user_list_items_url());
@@ -51,6 +52,7 @@
                                     } else {
                                         // add a flash message [ITEM NO EXISTE]
                                         osc_add_flash_error_message( __('Sorry, we don\'t have any items with that ID or the secret key is incorrect.','adManage')) ;
+                                        $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $id, date('Y-m-d H:i:s'), 'Item does not exist or incorrect secret key. ' . date('Y-m-d H:i:s'));
                                         if(osc_is_web_user_logged_in()) {
                                            // REDIRECT
                                            header("Location: " . osc_user_list_items_url());    	                                  
@@ -61,6 +63,8 @@
                                     }
 
          
+         } else {
+            $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $id, date('Y-m-d H:i:s'), 'Problem with url no action taken. ' . date('Y-m-d H:i:s'));
          }
         
 ?>

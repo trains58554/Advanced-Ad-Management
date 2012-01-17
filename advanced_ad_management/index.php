@@ -26,7 +26,7 @@ surely as haste leads to poverty. Proverbs 21:5
       osc_set_preference('adManageed_installed', '0', 'plugin-item_adManage', 'INTEGER');
       osc_set_preference('adManageed_freeRepubs', '0', 'plugin-item_adManage', 'INTEGER');
       osc_set_preference('adManageed_expireEmail', '1', 'plugin-item_adManage', 'INTEGER');
-      osc_set_preference('adManageed_deleteDays', '30', 'plugin-item_adManage', 'INTEGER');
+      osc_set_preference('adManageed_deleteDays', '0', 'plugin-item_adManage', 'INTEGER');
       //used for email template
       $conn->osc_dbExec("INSERT INTO %st_pages (s_internal_name, b_indelible, dt_pub_date) VALUES ('email_ad_expire', 1, NOW() )", DB_TABLE_PREFIX);
       $conn->osc_dbExec("INSERT INTO %st_pages_description (fk_i_pages_id, fk_c_locale_code, s_title, s_text) VALUES (%d, '%s', '{WEB_TITLE} - Your ad {ITEM_TITLE} is about to expire.', '<p>Hi {CONTACT_NAME}!</p>\r\n<p> </p>\r\n<p>Your ad is about to expire, click on the link if you would like to extend your ad {REPUBLISH_URL}</p><p> </p>\r\n<p>This is an automatic email, Please do not respond to this email.</p>\r\n<p> </p>\r\n<p>Thanks</p>\r\n<p>{WEB_TITLE}</p>')", DB_TABLE_PREFIX, $conn->get_last_id(), osc_language());
@@ -159,10 +159,11 @@ surely as haste leads to poverty. Proverbs 21:5
             return false;
         } else {
             $category = Category::newInstance()->findByPrimaryKey( $itemId['fk_i_category_id'] ) ;
-            $expiration = $category['i_expiration_days'] + $delExpire;
+            $expiration = $category['i_expiration_days'];
 
             if($expiration == 0){ return false; }
             else{
+                $expiration = $expiration + $delExpire;
                 $date_expiration = strtotime(date("Y-m-d H:i:s", strtotime( $itemId['dt_pub_date'] )) . " +$expiration day");
                 $now             = strtotime(date('Y-m-d H:i:s'));
 
@@ -182,7 +183,7 @@ surely as haste leads to poverty. Proverbs 21:5
          $repub = $conn->osc_dbFetchResult("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id = %d", DB_TABLE_PREFIX, $itemA['pk_i_id']);
          if(osc_expire_date($itemA['pk_i_id']) == TRUE && $pCatCount != 0 ) {            
             item_expire_email($itemA['pk_i_id'], $repub['r_secret'], osc_adManage_expire() );
-            $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Ad about to expire warning email sent. Successful');
+            $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Ad about to expire email sent. Successful' );
          }
          
          if(osc_item_adManage_adEmailEx() == 1) {
@@ -191,7 +192,7 @@ surely as haste leads to poverty. Proverbs 21:5
                if($exEmailed['ex_email'] != 1) {
                   item_expired_email($itemA['pk_i_id'], $repub['r_secret'], osc_item_adManage_deleteDays() );
                   $conn->osc_dbExec("UPDATE %st_item_adManage_limit SET ex_email = '%d' WHERE fk_i_item_id = '%d'", DB_TABLE_PREFIX, 1, $itemA['pk_i_id']);
-                  $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Expired email sent. Successful');
+                  $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Expired email sent. Successful');
                }// end check of expired email has been sent.
             }// end of is item expired check.
          }// end of if expired email enabled
@@ -205,12 +206,12 @@ surely as haste leads to poverty. Proverbs 21:5
                   $mItems = new ItemActions(false);
                   $success = $mItems->delete($item[0]['s_secret'], $item[0]['pk_i_id']);
                   if($success) {
-                     $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item deleted. Successful.');
+                     $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Cron item deleted. Successful.');
                   } else {
-                     $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted.');
+                     $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Cron item could not be deleted.');
                   } // end success 
                }// end count of items that need to be deleted.
-               else { $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, error_action) VALUES ('%d', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], 'Cron item could not be deleted item not found.'); }
+               $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Cron item could not be deleted item not found.'); }
             }// end of if item is expired past set expired date
            }// end check if item is in pCatCount
          }// end check if deleteDays is not equal to zero.
@@ -247,11 +248,10 @@ surely as haste leads to poverty. Proverbs 21:5
         
         $secret = '';
         
-        if(@$item[fk_i_user_id] == NULL) {
-           $secret = '&secret=' . $item['s_secret'];
-        }      
+        $secret = '&secret=' . $item['s_secret'];
+              
     
-        $republish_url    = osc_base_url() . 'oc-content/plugins/advanced_ad_republish/item_republish.php?id=' . $item['pk_i_id'] . '&repub=republish&rSecret=' . $r_secret . $secret ;
+        $republish_url    = osc_base_url() . 'oc-content/plugins/advanced_ad_management/item_republish.php?id=' . $item['pk_i_id'] . '&repub=republish&rSecret=' . $r_secret . $secret ;
         $republish_url    = '<a href="' . $republish_url . '" >' . $republish_url . '</a>';
 
         $words   = array();
@@ -298,11 +298,10 @@ surely as haste leads to poverty. Proverbs 21:5
         
         $secret = '';
         
-        if(@$item[fk_i_user_id] == NULL) {
-           $secret = '&secret=' . $item['s_secret'];
-        }      
+        $secret = '&secret=' . $item['s_secret'];
+              
         
-        $republish_url    = osc_base_url() . 'oc-content/plugins/advanced_ad_republish/item_republish.php?id=' . $item['pk_i_id'] . '&repub=republish&rSecret=' . $r_secret . $secret ;
+        $republish_url    = osc_base_url() . 'oc-content/plugins/advanced_ad_management/item_republish.php?id=' . $item['pk_i_id'] . '&repub=republish&rSecret=' . $r_secret . $secret ;
         $republish_url    = '<a href="' . $republish_url . '" >' . $republish_url . '</a>';
 
         $words   = array();
