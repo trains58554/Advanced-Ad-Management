@@ -211,14 +211,14 @@ surely as haste leads to poverty. Proverbs 21:5
                      $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Cron item could not be deleted.');
                   } // end success 
                }// end count of items that need to be deleted.
-               $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Cron item could not be deleted item not found.'); }
+               $conn->osc_dbExec("INSERT %st_item_adManage_log (fk_i_item_id, log_date, error_action) VALUES ('%d', '%s', '%s')", DB_TABLE_PREFIX, $itemA['pk_i_id'], date('Y-m-d H:i:s'), 'Cron item could not be deleted item not found.'); 
             }// end of if item is expired past set expired date
            }// end check if item is in pCatCount
          }// end check if deleteDays is not equal to zero.
          
       }//end of foreach
-      
-   }
+    }  
+   
    
    /**
      * Send email to users when their ad is about to expire
@@ -349,6 +349,10 @@ surely as haste leads to poverty. Proverbs 21:5
             else {
             	$("#freeTimes").attr('disabled','disabled');
             }
+        });
+        
+        $("#deleteDays").change(function(){
+           alert('<?php _e("All ads that have been expired for ' + $(this).val() + ' days will be deleted immediately!","adManage");?>');
         });
        });
        </script>
