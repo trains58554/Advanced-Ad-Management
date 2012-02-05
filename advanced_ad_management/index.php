@@ -96,7 +96,7 @@ surely as haste leads to poverty. Proverbs 21:5
        $conn = getConnection() ;
        $rePubTime = $conn->osc_dbFetchResult("SELECT * FROM %st_item_adManage_limit WHERE fk_i_item_id = '%d'", DB_TABLE_PREFIX, osc_item_id());
        if($rePubTime['r_times']>=1) {
-            return (string) __('Re-published Date: ','adManage') . osc_format_date(osc_item_pub_date());
+            return (string) __('Republished Date: ','adManage') . osc_format_date(osc_item_pub_date());
        } else {
             return (string) __('Published Date: ','adManage') . osc_format_date(osc_item_pub_date());
        }
