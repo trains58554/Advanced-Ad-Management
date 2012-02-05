@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Advanced Ad Management\n"
+"Project-Id-Version: Advanced Ad Management v.1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-15 22:16-0600\n"
+"POT-Creation-Date: 2012-02-04 21:47-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jay Chapman <siouxfallsrummages@gmail.com>\n"
 "Language-Team: Jesse & JChapman\n"
@@ -14,12 +14,28 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../index.php:112
+#: ../index.php:99
+msgid "Republished Date: "
+msgstr ""
+
+#: ../index.php:101
+msgid "Published Date: "
+msgstr ""
+
+#: ../index.php:115
+msgid "Republish Ad"
+msgstr ""
+
+#: ../index.php:124
 msgid "Configure"
 msgstr ""
 
-#: ../index.php:113
+#: ../index.php:125
 msgid "F.A.Q. / Help"
+msgstr ""
+
+#: ../index.php:355
+msgid "All ads that have been expired for ' + $(this).val() + ' days will be deleted immediately!"
 msgstr ""
 
 #: ../admin.php:38
@@ -200,18 +216,30 @@ msgid "Find the following code and add the above code between the tags but befor
 msgstr ""
 
 #: ../help.php:52
-msgid "How do I edit the email templates?"
+msgid "How do I show Republished date once an ad has been republished?"
 msgstr ""
 
 #: ../help.php:55
+msgid "Find the following code in the item.php file of your theme folder."
+msgstr ""
+
+#: ../help.php:61
+msgid "Replace the above code with the following code."
+msgstr ""
+
+#: ../help.php:67
+msgid "How do I edit the email templates?"
+msgstr ""
+
+#: ../help.php:70
 msgid "To edit the email templates you have to go under the Email & Alerts menu. Then you will see towards the end of the list email_ad_expire and email_ad_expired."
 msgstr ""
 
-#: ../help.php:58
+#: ../help.php:73
 msgid "What are the dynamic tags that can be used in the \"email_ad_expire\" template?"
 msgstr ""
 
-#: ../help.php:64
+#: ../help.php:79
 msgid "What are the dynamic tags that can be used in the \"email_ad_expired\" template?"
 msgstr ""
 
@@ -223,7 +251,7 @@ msgstr ""
 msgid "Sorry, this ad has reached the max number of republishes."
 msgstr ""
 
-#: ../item_republish.php:53
+#: ../item_republish.php:54
 msgid "Sorry, we don't have any items with that ID or the secret key is incorrect."
 msgstr ""
 

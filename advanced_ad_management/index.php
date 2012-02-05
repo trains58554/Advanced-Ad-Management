@@ -3,7 +3,7 @@
 Plugin Name: Advanced Ad Management
 Plugin URI: http://forums.osclass.org/development/repost-an-expired-ad/
 Description: Ad management options for ad republishing, expiration notices, automatic ad deletion and more!
-Version: 1.0
+Version: 1.1
 Author: Jesse & JChapman
 Author URI: http://www.osclass.org/
 Short Name: adManage

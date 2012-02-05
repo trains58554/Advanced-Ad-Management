@@ -49,6 +49,21 @@
                     &lt;p class="options"&gt;
                 </pre>
                 <h2>
+                    <?php _e('How do I show Republished date once an ad has been republished?', 'adManage'); ?>
+                </h2>
+                <p>
+                    <?php _e('Find the following code in the item.php file of your theme folder.','adManage'); ?>
+                </p>
+                <p>
+                   &nbsp;&nbsp; __('Published date', 'modern') . ': ' . osc_format_date( osc_item_pub_date() )
+                </p>
+                <p>
+                    <?php _e('Replace the above code with the following code.','adManage'); ?>
+                </p>
+                <p>
+                   &nbsp;&nbsp; aam_pub_repub_date()
+                </p>
+                <h2>
                     <?php _e('How do I edit the email templates?', 'adManage'); ?>
                 </h2>
                 <p>
