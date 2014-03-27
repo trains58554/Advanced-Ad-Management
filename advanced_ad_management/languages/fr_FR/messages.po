@@ -2,18 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced_Ad_Management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 08:52+0100\n"
+"POT-Creation-Date: 2014-03-26 13:12+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Emmanuel Simond <emanwebdev@gmail.com>\n"
+"Last-Translator: Emmanuel <emanwebdev@gmail.com>\n"
 "Language-Team: OSClass <info@osclass.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2\n"
 "Plural-Forms: nplurals=2; plural=n !=1;\n"
 "X-Poedit-Basepath: ../\n"
+"Language: fr_FR\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../index.php:99
@@ -37,12 +38,17 @@ msgid "F.A.Q. / Help"
 msgstr "FAQ / Aide"
 
 #: ../index.php:355
-msgid "All ads that have been expired for ' + $(this).val() + ' days will be deleted immediately!"
-msgstr "Toutes les annonces qui sont expirées depuis ' + $(this).val() + ' jours seront immédiatement supprimées!"
+msgid ""
+"All ads that have been expired for ' + $(this).val() + ' days will be "
+"deleted immediately!"
+msgstr ""
+"Toutes les annonces qui sont expirées depuis ' + $(this).val() + ' jours "
+"seront immédiatement supprimées!"
 
 #: ../admin.php:38
 msgid "Ad expiration successfully set for all categories"
-msgstr "Mise à jour avec succès de la date d'expiration pour toutes les catégories"
+msgstr ""
+"La date d'expiration a été mise à jour avec succès pour toutes les catégories"
 
 #: ../admin.php:99
 #, fuzzy
@@ -51,7 +57,7 @@ msgstr "Paramètres sauvegardés"
 
 #: ../admin.php:107
 msgid "Advanced Ad Management Configuration"
-msgstr "Configuration du module Gestion Avancée des annonces"
+msgstr "Configuration de l'extension Republier une Annonce en 1 Clic"
 
 #: ../admin.php:109
 msgid "Step 1"
@@ -70,16 +76,26 @@ msgid "Step 2"
 msgstr "étape 2"
 
 #: ../admin.php:121
-msgid "Configure which categories you want your users to be able to republish their ads in."
-msgstr "Configurer les catégories dans lesquelles vous souhaitez que vos utilisateurs puissent publier leurs annonces."
+msgid ""
+"Configure which categories you want your users to be able to republish their "
+"ads in."
+msgstr ""
+"Configurer les catégories dans lesquelles vous souhaitez que vos "
+"utilisateurs puissent publier leurs annonces."
 
 #: ../admin.php:123
-msgid "Manage which categories you want your users to be able to republish their ads in."
-msgstr "Gérer les catégories dans lesquelles souhaitez que vos utilisateurs puissent publier leurs annonces."
+msgid ""
+"Manage which categories you want your users to be able to republish their "
+"ads in."
+msgstr ""
+"Gérer les catégories dans lesquelles souhaitez que vos utilisateurs puissent "
+"publier leurs annonces."
 
 #: ../admin.php:124
 msgid "categoreies allow users to republish ads"
-msgstr "Catégories dans lesquelles les utilisateurs sont autorisés à republier leurs annonces"
+msgstr ""
+"Catégories dans lesquelles les utilisateurs sont autorisés à republier leurs "
+"annonces"
 
 #: ../admin.php:134
 msgid "Master Expire Settings"
@@ -87,7 +103,9 @@ msgstr "saisir Expiration des paramètres"
 
 #: ../admin.php:135
 msgid "This powerful feature will change the ad expiration settings for"
-msgstr "Cette puissante fonctionnalité va changer les paramètres d'expiration des annonces pour"
+msgstr ""
+"Cette puissante fonctionnalité va changer les paramètres d'expiration des "
+"annonces pour"
 
 #: ../admin.php:135
 msgid "ALL"
@@ -99,7 +117,9 @@ msgstr "catégories et sous-catégories."
 
 #: ../admin.php:136
 msgid "Enter ad expiration in days (0 = no expiration, max = 999 days)"
-msgstr "Entrez la date d'expiration de l'annonce en jours (0 = aucune expiration, max = 999 jours)"
+msgstr ""
+"Entrez la date d'expiration de l'annonce en jours (0 = aucune expiration, "
+"max = 999 jours)"
 
 #: ../admin.php:137
 #, fuzzy
@@ -115,8 +135,7 @@ msgstr " jours)"
 msgid "Updated"
 msgstr "Mise à jour"
 
-#: ../admin.php:140
-#: ../admin.php:195
+#: ../admin.php:140 ../admin.php:195
 msgid "Save"
 msgstr "Sauvegarder"
 
@@ -130,11 +149,17 @@ msgstr "Paramètres de la republication des annonces"
 
 #: ../admin.php:152
 msgid "Number of days before item expires to send email?"
-msgstr "Combien de jours avant l'expiration d'une annonce un courriel de rappel doit-il être envoyé ?"
+msgstr ""
+"Combien de jours avant l'expiration d'une annonce un email de rappel doit-il "
+"être envoyé ?"
 
 #: ../admin.php:153
-msgid "Note: emails will only be sent on categories with <br />expiration days greater then 10"
-msgstr "Note : les courriels sont envoyés uniquement dans les catégories<br/>qui ont une durée avant expiration de plus de 10 jours"
+msgid ""
+"Note: emails will only be sent on categories with <br />expiration days "
+"greater then 10"
+msgstr ""
+"Note : les courriels sont envoyés uniquement dans les catégories<br/>qui ont "
+"une durée avant expiration de plus de 10 jours"
 
 #: ../admin.php:154
 msgid "(default: 4)"
@@ -158,11 +183,16 @@ msgstr "L’utilisateur doit-il payer à chaque nouvelle publication?"
 
 #: ../admin.php:171
 msgid "Number of free republishes before requiring fee to be paid?"
-msgstr "Nombre d'annonces qu'un utilisateur peut publier avant la publication payante"
+msgstr ""
+"Nombre d'annonces qu'un utilisateur peut publier avant la publication payante"
 
 #: ../admin.php:172
-msgid "Note: This number should be smaller then the \"Number of times an <br />ad can be republished\" unless it is set to zero."
-msgstr "Note : Ce nombre doit être inférieur à \"Nombre de fois qu'une annonce peut être republiée\" sauf si ce dernier est défini à zéro."
+msgid ""
+"Note: This number should be smaller then the \"Number of times an <br />ad "
+"can be republished\" unless it is set to zero."
+msgstr ""
+"Note : Ce nombre doit être inférieur à \"Nombre de fois qu'une annonce peut "
+"être republiée\" sauf si ce dernier est défini à zéro."
 
 #: ../admin.php:173
 msgid "(0 = no free republishes)"
@@ -170,7 +200,8 @@ msgstr "(0 = aucune republication gratuite)"
 
 #: ../admin.php:174
 msgid "Enable Paypal Pay Per Post option to see these settings"
-msgstr "Activez l'option de paiement Paypal par catégorie pour voir ces paramètres"
+msgstr ""
+"Activez l'option de paiement Paypal par catégorie pour voir ces paramètres"
 
 #: ../admin.php:180
 msgid "Ad Expiration Settings"
@@ -178,15 +209,22 @@ msgstr "Paramètres d'Expiration de l'annonce"
 
 #: ../admin.php:181
 msgid "Send an email once the ad has expired?"
-msgstr "Envoyer un courriel une fois que l'annonce a expiré ?"
+msgstr "Envoyer un email une fois que l'annonce a expiré ?"
 
 #: ../admin.php:188
 msgid "Number of days until expired ads are deleted permanently?"
-msgstr "Nombre de jours jusqu'à ce que les annonces expirées soient supprimées définitivement ?"
+msgstr ""
+"Nombre de jours jusqu'à ce que les annonces expirées soient supprimées "
+"définitivement ?"
 
 #: ../admin.php:189
-msgid "Note: If you have the number of days set ot zero you should edit the <br />email template \"email_ad_expired\" accordingly"
-msgstr "Remarque : Si vous avez  définit le nombre de jours  à zéro, vous devriez éditer le Courriel email_ad_expired   du module  en conséquence"
+msgid ""
+"Note: If you have the number of days set ot zero you should edit the <br /"
+">email template \"email_ad_expired\" accordingly"
+msgstr ""
+"Remarque: Si vous avez définit le nombre de jours à zéro, vous devriez "
+"modifier en conséquence l'email \"email_ad_expired\" associé à cette "
+"fonctionnalité et ce paramètre"
 
 #: ../admin.php:190
 msgid "(0 = never deleted)"
@@ -198,35 +236,53 @@ msgstr "Auteurs"
 
 #: ../help.php:28
 msgid "Advanced Ad Management Help"
-msgstr "Aide du module de Gestion Avancée des annonces"
+msgstr "Aide de l'extension Republier une Annonce en 1 Clic"
 
 #: ../help.php:31
 msgid "What is the Advanced Ad Management Plugin?"
-msgstr "A propos de ce module de Gestion Avancée des annonces"
+msgstr "A propos de cette extension Republier une Annonce en 1 Clic"
 
 #: ../help.php:34
-msgid "The Advanced Ad Management Plugin gives the user the option to republish there ad after it expires. More info coming soon."
-msgstr "Le module de Gestion Avancée des annonces donne à l'utilisateur la possibilité de republier ses annonces après leur expiration. Plus d'infos bientôt."
+msgid ""
+"The Advanced Ad Management Plugin gives the user the option to republish "
+"there ad after it expires. More info coming soon."
+msgstr ""
+"L'extension Republier une Annonce en 1 Clic donne à l'utilisateur la "
+"possibilité de republier ses annonces juste avant ou même pendant quelques jours après leur "
+"expiration."
 
 #: ../help.php:37
 msgid "Do I need to edit any files for Advanced Ad Management plugin to work?"
-msgstr "Ai-je besoin d'éditer des fichiers pour que ce module de Gestion Avancée des annonces fonctionne ?"
+msgstr ""
+"Ai-je besoin d'éditer des fichiers pour que l'extension Republier une "
+"Annonce en 1 Clic fonctionne ?"
 
 #: ../help.php:40
-msgid "Yes, You need to edit the user-items.php file and add the following line."
-msgstr "Oui, vous devez modifier le fichier user-items.php et y ajouter la ligne suivante."
+msgid ""
+"Yes, You need to edit the user-items.php file and add the following line."
+msgstr ""
+"Oui, vous devez modifier le fichier user-items.php et y ajouter la ligne "
+"suivante."
 
 #: ../help.php:46
-msgid "Find the following code and add the above code between the tags but before the &lt;/p&gt; tag."
-msgstr "Trouvez le code suivant et ajoutez le code ci-dessus entre les balises mais avant la balise &lt;/p&gt;"
+msgid ""
+"Find the following code and add the above code between the tags but before "
+"the &lt;/p&gt; tag."
+msgstr ""
+"Trouvez le code suivant et ajoutez le code ci-dessus entre les balises mais "
+"avant la balise &lt;/p&gt;"
 
 #: ../help.php:52
 msgid "How do I show Republished date once an ad has been republished?"
-msgstr "Comment puis-je afficher la date de republication une fois qu'une annonce a été republiéé?"
+msgstr ""
+"Comment puis-je afficher la date de republication une fois qu'une annonce a "
+"été republiéé?"
 
 #: ../help.php:55
 msgid "Find the following code in the item.php file of your theme folder."
-msgstr "Trouvez le code suivant dans le fichier item.php se trouvant dans le répertoire de votre thème."
+msgstr ""
+"Trouvez le code suivant dans le fichier item.php se trouvant dans le "
+"répertoire de votre thème."
 
 #: ../help.php:61
 msgid "Replace the above code with the following code."
@@ -234,19 +290,33 @@ msgstr "Remplacez le code ci-dessus avec le code suivant."
 
 #: ../help.php:67
 msgid "How do I edit the email templates?"
-msgstr "Comment procéder pour modifier les modèles des courriels ?"
+msgstr "Comment procéder pour modifier les modèles des emails envoyés automatiquement?"
 
 #: ../help.php:70
-msgid "To edit the email templates you have to go under the Email & Alerts menu. Then you will see towards the end of the list email_ad_expire and email_ad_expired."
-msgstr "Pour modifier les modèles des courriels, vous devez aller dans le menu Paramètres &rightarrow; Modèles d'emails. Ensuite, vous verrez vers la fin de la liste les 2 modèles utilisés: email_ad_expire et email_ad_expired."
+msgid ""
+"To edit the email templates you have to go under the Email & Alerts menu. "
+"Then you will see towards the end of the list email_ad_expire and "
+"email_ad_expired."
+msgstr ""
+"Pour modifier les modèles des courriels, vous devez aller dans le menu "
+"Paramètres &rightarrow; Modèles d'emails. Ensuite, vous verrez vers la fin "
+"de la liste les 2 modèles utilisés par cette extension: \"email_ad_expire\" et \"email_ad_expired\"."
 
 #: ../help.php:73
-msgid "What are the dynamic tags that can be used in the \"email_ad_expire\" template?"
-msgstr "Quelles sont les balises dynamiques qui peuvent être utilisées dans le modèle email_ad_expire ?"
+msgid ""
+"What are the dynamic tags that can be used in the \"email_ad_expire\" "
+"template?"
+msgstr ""
+"Quelles sont les balises de remplacement automatique qui peuvent être utilisées dans le "
+"modèle \"email_ad_expire\" ?"
 
 #: ../help.php:79
-msgid "What are the dynamic tags that can be used in the \"email_ad_expired\" template?"
-msgstr "Quelles sont les balises dynamiques qui peuvent être utilisées dans le modèle email_ad_expired ?"
+msgid ""
+"What are the dynamic tags that can be used in the \"email_ad_expired\" "
+"template?"
+msgstr ""
+"Quelles sont les balises de remplacement automatique qui peuvent être utilisées dans le "
+"modèle \"email_ad_expired\" ?"
 
 #: ../item_republish.php:33
 msgid "Item has been republished"
@@ -257,9 +327,11 @@ msgid "Sorry, this ad has reached the max number of republishes."
 msgstr "Désolé, cette annonce a atteint le nombre max de republication."
 
 #: ../item_republish.php:54
-msgid "Sorry, we don't have any items with that ID or the secret key is incorrect."
-msgstr "Désolé, il n'y a pas d'annonce avec cet identifiant, ou alors la clé secrète utilisée est incorrecte."
+msgid ""
+"Sorry, we don't have any items with that ID or the secret key is incorrect."
+msgstr ""
+"Désolé, il n'y a pas d'annonce avec cet identifiant, ou alors la clé secrète "
+"utilisée est incorrecte."
 
 #~ msgid "All"
 #~ msgstr "Tout"
-
